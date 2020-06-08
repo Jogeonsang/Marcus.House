@@ -2,9 +2,22 @@ import React from "react";
 import styled from 'styled-components';
 import {Link} from 'react-router-dom'
 
-const Category = ({selectCategory, setCategory}) => {
+interface CategoryProps {
+  selectCategory: {
+    name: string;
+    id: number;
+  };
+  setCategory: ((category: {name: string; id: number}) => void);
+}
 
-  const categoryList = [
+interface ICategoryList {
+  name: string;
+  id: number;
+}
+
+const Category: React.FC<CategoryProps> = ({selectCategory, setCategory}) => {
+
+  const categoryList: ICategoryList[] = [
     {name: '가구', id: 1},
     {name: '페브릭', id: 2},
     {name: '주방', id: 3},
@@ -19,8 +32,8 @@ const Category = ({selectCategory, setCategory}) => {
           <CategoryItem>
             {selectCategory.name}
           </CategoryItem>
-          {categoryList.map(category => {
-            const {name, id} = category;
+          {categoryList.map((category) => {
+            const {name, id}:ICategoryList = category;
             if (name !== selectCategory.name) {
               return (
                 <CategoryItem onClick={() => setCategory(category)} key={id}>
