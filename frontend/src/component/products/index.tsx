@@ -1,13 +1,19 @@
-import React, {useEffect, useState, useRef, useCallback} from 'react';
+import React, {useEffect, useState, useRef, useCallback, FC} from 'react';
 import styled from 'styled-components';
 
 import {getProducts} from "../../api";
 import Product from "./product";
 import useIO from "../../hooks/IntersectionObserver/useIO";
 import useIS from "../../hooks/InfinityScroll/useIS";
-import {Skeleton} from "../skeletonEl";
+interface IProductsProps {
+    selectCategory: {
+        name: string;
+        id: number;
+    };
+    refContainer: HTMLDivElement | null
+}
 
-const Products = ({selectCategory, refContainer}) => {
+const Products: FC<IProductsProps> = ({selectCategory, refContainer}) => {
 
     const {name: title, id: categoryId} = selectCategory;
     const [products, setProducts] = useState([]);
@@ -17,6 +23,7 @@ const Products = ({selectCategory, refContainer}) => {
       rootMargin: '30px',
       root: null
     });
+
     const loader = useRef(null);
 
     const loadMore = useCallback((entries) => {
@@ -41,12 +48,13 @@ const Products = ({selectCategory, refContainer}) => {
     useEffect(() => {
       if (products.length) {
         let img = Array.from(document.getElementsByClassName('lazy'));
+        console.log(img)
         setElements(img)
       }
     }, [products, setElements, isLoading]);
 
     useEffect(() => {
-      entries.forEach(entry => {
+      entries.forEach((entry:any) => {
         if (entry.isIntersecting) {
           let lazyImage = entry.target;
           lazyImage.src = lazyImage.dataset.src;
@@ -60,7 +68,7 @@ const Products = ({selectCategory, refContainer}) => {
       let arr = new Array(10).fill(undefined).map((val,idx) => idx);
       return (
         <ProductsWrapper>
-          {arr.map((index) => (
+          {arr.map((index:number) => (
             <Product key={index}/>
           ))}
         </ProductsWrapper>
@@ -68,8 +76,8 @@ const Products = ({selectCategory, refContainer}) => {
     }
     return (
       <ProductsWrapper>
-        {products.map(product => (
-          <Product key={product.id} product={product} isLazy/>
+        {products.map((product:any) => (
+          <Product key={product.id} product={product} isLazy={true}/>
         ))}
       </ProductsWrapper>
     )

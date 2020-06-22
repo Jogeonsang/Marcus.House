@@ -1,17 +1,31 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useIO = (options) => {
-  const [elements, setElements] = useState([]);
-  const [entries, setEntries] = useState([]);
+interface IUseIO {
+  setElements: any;
+  observer: any;
+  entries: any;
+}
 
-  const observer = useRef(null);
+interface IOptions {
+  root: null;
+  rootMargin: string;
+  threshold: number;
+}
+
+
+const useIO = (options:IOptions) => {
+  const [elements, setElements] = useState<any>([]);
+  const [entries, setEntries] = useState<any>([]);
+
+  const observer = useRef<HTMLDivElement>(null);
 
   const { root, rootMargin, threshold } = options || {};
 
 
+
   useEffect(() => {
     if (elements.length) {
-      console.log('-----CONNECTING OBSERVER------');
+      // -----CONNECTING OBSERVER------
       // IO 생성
       observer.current = new IntersectionObserver((ioEntries) => {
         setEntries(ioEntries);
@@ -21,13 +35,13 @@ const useIO = (options) => {
         rootMargin
       });
 
-      elements.forEach(element => {
+      elements.forEach((element:HTMLDivElement)=> {
         observer.current.observe(element);
       });
     }
     return () => {
       if (observer.current) {
-        console.log('-----DISCONNECTING OBSERVER------')
+        // -----DISCONNECTING OBSERVER------
         observer.current.disconnect();
       }
     }

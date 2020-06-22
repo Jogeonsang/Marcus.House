@@ -24,6 +24,6 @@ const SkeletonLine = styled.div`
     content: "\00a0";
   }
 `;
-export const Skeleton = ({width}) => (
+export const Skeleton = ({width='0%'}) => (
   <SkeletonLine width={width}/>
 );

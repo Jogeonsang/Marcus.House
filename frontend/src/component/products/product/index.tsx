@@ -2,7 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import {Skeleton} from "../../skeletonEl";
 
-const Product = ({product={}, isLazy}) => {
+interface IProductProps {
+  product?: {
+    brand: string;
+    name: string;
+    price: string | number;
+    img: string;
+  };
+  isLazy?: any;
+  key?: number;
+}
+
+const Product: React.FC<IProductProps> = ({product={}, isLazy}) => {
 
   if(Object.keys(product).length === 0) {
     return (
@@ -22,7 +33,6 @@ const Product = ({product={}, isLazy}) => {
     <ProductImg
       className={isLazy ? 'lazy' : ''}
       data-src={product.img}
-      isLazy={isLazy}
     />
     <ProductContent>
       <ProductBrand>{product.brand}</ProductBrand>
