@@ -24,7 +24,7 @@ const Products: FC<IProductsProps> = ({selectCategory, refContainer}) => {
       root: null
     });
 
-    const loader = useRef(null);
+    const loader = useRef<HTMLDivElement | null>(null);
 
     const loadMore = useCallback((entries) => {
       const target = entries[0];
