@@ -5,7 +5,6 @@ import {getProducts} from "../../api";
 import Product from "./product";
 import useIO from "../../hooks/IntersectionObserver/useIO";
 import useIS from "../../hooks/InfinityScroll/useIS";
-
 interface IProductsProps {
     selectCategory: {
         name: string;
@@ -16,7 +15,7 @@ interface IProductsProps {
 
 const Products: FC<IProductsProps> = ({selectCategory, refContainer}) => {
 
-    const {id: categoryId} = selectCategory;
+    const {name: title, id: categoryId} = selectCategory;
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [observer, setElements, entries] = useIO({
@@ -74,7 +73,6 @@ const Products: FC<IProductsProps> = ({selectCategory, refContainer}) => {
         </ProductsWrapper>
       )
     }
-
     return (
       <ProductsWrapper>
         {products.map((product:any) => (
