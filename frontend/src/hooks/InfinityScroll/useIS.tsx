@@ -1,4 +1,4 @@
-import {useEffect, FC} from "react";
+import {useEffect} from "react";
 
 interface IOptions {
   root: null;
