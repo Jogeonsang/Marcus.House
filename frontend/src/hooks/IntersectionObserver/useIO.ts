@@ -1,11 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-interface IUseIO {
-  setElements: any;
-  observer: any;
-  entries: any;
-}
-
 interface IOptions {
   root: null;
   rootMargin: string;
@@ -14,8 +8,8 @@ interface IOptions {
 
 
 const useIO = (options:IOptions) => {
-  const [elements, setElements] = useState<any>([]);
-  const [entries, setEntries] = useState<any>([]);
+  const [elements, setElements] = useState<never[]>([]);
+  const [entries, setEntries] = useState<any[]>([]);
 
   const observer = useRef<HTMLDivElement>(null);
 
@@ -27,7 +21,7 @@ const useIO = (options:IOptions) => {
     if (elements.length) {
       // -----CONNECTING OBSERVER------
       // IO 생성
-      observer.current = new IntersectionObserver((ioEntries) => {
+      observer.current = new IntersectionObserver((ioEntries: any[]) => {
         setEntries(ioEntries);
       }, {
         threshold,
@@ -39,6 +33,7 @@ const useIO = (options:IOptions) => {
         observer.current.observe(element);
       });
     }
+
     return () => {
       if (observer.current) {
         // -----DISCONNECTING OBSERVER------

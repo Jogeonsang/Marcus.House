@@ -48,7 +48,6 @@ const Products: FC<IProductsProps> = ({selectCategory, refContainer}) => {
     useEffect(() => {
       if (products.length) {
         let img = Array.from(document.getElementsByClassName('lazy'));
-        console.log(img)
         setElements(img)
       }
     }, [products, setElements, isLoading]);
