@@ -1,4 +1,6 @@
 const db = require('../db');
+/*const pgp = require('pg-promise')(/!* options *!/)
+const db = pgp(`postgres://marcus:jung781@localhost:5432/marcus_house_db`)*/
 
 module.exports = {
 
@@ -9,12 +11,14 @@ module.exports = {
    * @param next
    **/
   async getProducts(req, res, next) {
-    const {categoryId, limit = 30, offset = 0, } = req.params; // categoryId
-    db.query(`SELECT * FROM products WHERE category_id = ${categoryId} LIMIT ${limit} OFFSET ${offset}`, (error, results) => {
-      if (error) {
-        res.status(500).json({err: error, message: 'fail'})
-      }
-      res.status(200).json({payload: results.rows, message: 'success'})
-    });
+    const {categoryId, limit=24, offset=0, } = req.query; // categoryId
+    db.any(`SELECT * FROM product WHERE category = ${categoryId} LIMIT ${limit} OFFSET ${offset}`)
+        .then(function (data) {
+          console.log(data)
+            res.status(200).json({payload: data, message: 'success'})
+        })
+        .catch(function (error) {
+            res.status(500).json({err: error, message: 'fail'})
+    })
   }
 };

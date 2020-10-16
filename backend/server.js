@@ -1,11 +1,10 @@
 const express = require("express");
-const { Pool } = require('pg');
+const db = require('./db');
 const productsAPI = require('./products/route')
 const cors = require('cors');
 const bodyParser = require("body-parser");
 const app = express();
 
-const db = require('./db');
 
 const corsOptions = {
   origin: "http://localhost:3000"
@@ -16,7 +15,7 @@ app.use(cors(corsOptions));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// parse application/json
+// parse application/data.json
 app.use(bodyParser.json());
 
 // API
@@ -28,10 +27,11 @@ app.all('/*', function(req, res, next) {
   next();
 });
 
+
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
-db.connect();

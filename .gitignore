@@ -114,4 +114,5 @@ temp/
 .idea
 
 # file
-crawling
+./backend/config.js
+./backend/db.js
