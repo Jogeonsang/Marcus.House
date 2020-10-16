@@ -114,5 +114,5 @@ temp/
 .idea
 
 # file
-./backend/config.js
-./backend/db.js
+backend/db.js
+backend/config.js
