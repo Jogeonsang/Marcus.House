@@ -4,10 +4,10 @@ import {Skeleton} from "../../skeletonEl";
 
 interface IProductProps {
   product?: {
-    brand: string;
+    brand_name: string;
     name: string;
-    price: string | number;
-    img: string;
+    cost:  number;
+    image_url: string;
   };
   isLazy?: any;
   key?: number;
@@ -32,12 +32,12 @@ const Product: React.FC<IProductProps> = ({product={}, isLazy}) => {
   <ProductWrapper>
     <ProductImg
       className={isLazy ? 'lazy' : ''}
-      data-src={product.img}
+      data-src={product.image_url}
     />
     <ProductContent>
-      <ProductBrand>{product.brand}</ProductBrand>
+      <ProductBrand>{product.brand_name}</ProductBrand>
       <ProductName>{product.name}</ProductName>
-      <ProductPrice>{product.price}</ProductPrice>
+      <ProductPrice>{product.cost}</ProductPrice>
     </ProductContent>
   </ProductWrapper>
 )

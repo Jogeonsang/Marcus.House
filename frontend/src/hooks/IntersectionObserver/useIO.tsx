@@ -1,17 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react'
 
 interface IOptions {
-  root: null;
+  root: HTMLDivElement | null;
   rootMargin: string;
   threshold: number;
 }
 
 
 const useIO = (options:IOptions) => {
-  const [elements, setElements] = useState<never[]>([]);
-  const [entries, setEntries] = useState<any[]>([]);
+  const [elements, setElements] = useState<any>([]);
+  const [entries, setEntries] = useState<any>([]);
 
-  const observer = useRef<HTMLDivElement>(null);
+  const observer = useRef<any | null>(null);
 
   const { root, rootMargin, threshold } = options || {};
 

@@ -10,12 +10,12 @@ const Store: React.FC = () => {
   const category: number = Number(useQuery().get('category')) || 1;
 
   const [selectCategory, setCategory] = useState({name: '가구', id: category});
-  const refContainer = useRef<HTMLDivElement>(null);
+  const refContainer = useRef<any>(null);
 
   return (
     <AppContainer>
       <Category selectCategory={selectCategory} setCategory={setCategory}/>
-      <Products selectCategory={selectCategory} refContainer={refContainer}/>
+      <Products selectCategory={selectCategory}/>
     </AppContainer>
   )
 };

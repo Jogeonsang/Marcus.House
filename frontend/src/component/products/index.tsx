@@ -10,10 +10,9 @@ interface IProductsProps {
         name: string;
         id: number;
     };
-    refContainer: HTMLDivElement | null
 }
 
-const Products: FC<IProductsProps> = ({selectCategory, refContainer}) => {
+const Products: FC<IProductsProps> = ({selectCategory}) => {
 
     const {name: title, id: categoryId} = selectCategory;
     const [products, setProducts] = useState([]);
@@ -36,7 +35,7 @@ const Products: FC<IProductsProps> = ({selectCategory, refContainer}) => {
     useEffect(() => {
       const fetchData = async () => {
         setIsLoading(true);
-        const result = await getProducts(categoryId);
+        const result = await getProducts(categoryId, 24, 0);
 
         setProducts(result.data.payload);
         setIsLoading(false);
