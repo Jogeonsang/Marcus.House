@@ -1,14 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import {Skeleton} from "../../skeletonEl";
+import {IProduct} from "types/product";
 
 interface IProductProps {
-  product?: {
-    brand_name: string;
-    name: string;
-    cost:  number;
-    image_url: string;
-  };
+  product?: IProduct
   isLazy?: any;
   key?: number;
 }
@@ -30,10 +26,7 @@ const Product: React.FC<IProductProps> = ({product={}, isLazy}) => {
 
   return(
   <ProductWrapper>
-    <ProductImg
-      className={isLazy ? 'lazy' : ''}
-      data-src={product.image_url}
-    />
+    <ProductImg src={product.image_url} />
     <ProductContent>
       <ProductBrand>{product.brand_name}</ProductBrand>
       <ProductName>{product.name}</ProductName>

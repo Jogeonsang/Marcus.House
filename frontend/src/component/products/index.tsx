@@ -1,11 +1,16 @@
 import React, {useEffect, useState, useRef, useCallback, FC} from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux'
 
-import {getProducts} from "../../api";
 import Product from "./product";
-import useIO from "../../hooks/IntersectionObserver/useIO";
-import useIS from "../../hooks/InfinityScroll/useIS";
-interface IProductsProps {
+import {IProduct} from 'types/product'
+
+import * as marketSelector from 'store/market/selectors'
+import * as marketActions from 'store/market/actions'
+
+import useInfiniteScroll from "hooks/InfinityScroll/useIS";
+
+    interface IProductsProps {
     selectCategory: {
         name: string;
         id: number;
@@ -14,55 +19,23 @@ interface IProductsProps {
 
 const Products: FC<IProductsProps> = ({selectCategory}) => {
 
+    const dispatch = useDispatch()
+    const getMarketItemList = useSelector(marketSelector.getMarketItemList)
+
     const {name: title, id: categoryId} = selectCategory;
-    const [products, setProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [observer, setElements, entries] = useIO({
-      threshold: 0.25,
-      rootMargin: '30px',
-      root: null
-    });
 
-    const loader = useRef<HTMLDivElement | null>(null);
+    const fetchData = () => {
+        dispatch(marketActions.fetchMarketItemListAsync.request({category: categoryId, offset: 24, limit: 0}))
+        setIsFetching(false)
+    };
 
-    const loadMore = useCallback((entries) => {
-      const target = entries[0];
-    }, []);
-
-    // Infinity Scroll 사용 함수
-    useIS({loader, loadMore});
+    const [isFetching, setIsFetching] = useInfiniteScroll(fetchData)
 
     useEffect(() => {
-      const fetchData = async () => {
-        setIsLoading(true);
-        const result = await getProducts(categoryId, 24, 0);
-
-        setProducts(result.data.payload);
-        setIsLoading(false);
-      };
-
       fetchData();
     }, [categoryId]);
 
-    useEffect(() => {
-      if (products.length) {
-        let img = Array.from(document.getElementsByClassName('lazy'));
-        setElements(img)
-      }
-    }, [products, setElements, isLoading]);
-
-    useEffect(() => {
-      entries.forEach((entry:any) => {
-        if (entry.isIntersecting) {
-          let lazyImage = entry.target;
-          lazyImage.src = lazyImage.dataset.src;
-          lazyImage.classList.remove("lazy");
-          observer.unobserve(lazyImage);
-        }
-      })
-    }, [entries, observer]);
-
-    if (isLoading) {
+    if (getMarketItemList.isLoading) {
       let arr = new Array(10).fill(undefined).map((val,idx) => idx);
       return (
         <ProductsWrapper>
@@ -74,7 +47,7 @@ const Products: FC<IProductsProps> = ({selectCategory}) => {
     }
     return (
       <ProductsWrapper>
-        {products.map((product:any) => (
+        {getMarketItemList.data.map((product:IProduct) => (
           <Product key={product.id} product={product} isLazy={true}/>
         ))}
       </ProductsWrapper>

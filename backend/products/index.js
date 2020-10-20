@@ -15,7 +15,7 @@ module.exports = {
     db.any(`SELECT * FROM product WHERE category = ${categoryId} LIMIT ${limit} OFFSET ${offset}`)
         .then(function (data) {
           console.log(data)
-            res.status(200).json({payload: data, message: 'success'})
+            res.status(200).json({data: data, message: 'success'})
         })
         .catch(function (error) {
             res.status(500).json({err: error, message: 'fail'})

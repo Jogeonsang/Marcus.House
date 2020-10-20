@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "lib": [
+      "es5",
       "dom",
       "dom.iterable",
       "esnext"
@@ -17,7 +18,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "allowSyntheticDefaultImports": true
+    "baseUrl": "src",
+    "allowSyntheticDefaultImports": true,
   },
   "include": [
     "src"
