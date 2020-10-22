@@ -1,5 +1,4 @@
 export interface IProduct {
-    key: number;
     id: number;
     name: string;
     brand_name: string;

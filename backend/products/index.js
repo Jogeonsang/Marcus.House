@@ -11,14 +11,17 @@ module.exports = {
    * @param next
    **/
   async getProducts(req, res, next) {
-    const {categoryId, limit=24, offset=0, } = req.query; // categoryId
-    db.any(`SELECT * FROM product WHERE category = ${categoryId} LIMIT ${limit} OFFSET ${offset}`)
-        .then(function (data) {
-          console.log(data)
-            res.status(200).json({data: data, message: 'success'})
+      const {categoryId, limit, offset, } = req.query; // categoryId
+      let count = 0;
+      db.one(`SELECT count(*) FROM product where category = ${categoryId}`).then(function (data) {
+          count = Number(data.count)
+      })
+        db.any(`SELECT id, name, brand_name, image_url, cost, category FROM product WHERE category = ${categoryId} LIMIT ${limit} OFFSET ${offset}`)
+            .then(function (data) {
+                res.status(200).json({data: {data, hasMore: count > limit}, message: 'success'})
+            })
+            .catch(function (error) {
+                res.status(500).json({err: error, message: 'fail'})
         })
-        .catch(function (error) {
-            res.status(500).json({err: error, message: 'fail'})
-    })
-  }
+    }
 };

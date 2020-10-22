@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useCallback, FC} from 'react';
+import React, {useEffect, FC} from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -8,7 +8,8 @@ import {IProduct} from 'types/product'
 import * as marketSelector from 'store/market/selectors'
 import * as marketActions from 'store/market/actions'
 
-import useInfiniteScroll from "hooks/InfinityScroll/useIS";
+import useInfiniteScroll from "hooks/InfinityScroll";
+import usePagination from "hooks/usePagination";
 
     interface IProductsProps {
     selectCategory: {
@@ -20,13 +21,17 @@ import useInfiniteScroll from "hooks/InfinityScroll/useIS";
 const Products: FC<IProductsProps> = ({selectCategory}) => {
 
     const dispatch = useDispatch()
+    const [pagination, nextPagination] = usePagination();
     const getMarketItemList = useSelector(marketSelector.getMarketItemList)
-
     const {name: title, id: categoryId} = selectCategory;
 
     const fetchData = () => {
-        dispatch(marketActions.fetchMarketItemListAsync.request({category: categoryId, offset: 24, limit: 0}))
-        setIsFetching(false)
+        const { offset, limit } = pagination;
+        if (getMarketItemList.hasMore) {
+            dispatch(marketActions.fetchMarketItemListAsync.request({category: categoryId, offset: offset, limit: limit}))
+            nextPagination()
+            setIsFetching(false)
+        }
     };
 
     const [isFetching, setIsFetching] = useInfiniteScroll(fetchData)
@@ -35,7 +40,7 @@ const Products: FC<IProductsProps> = ({selectCategory}) => {
       fetchData();
     }, [categoryId]);
 
-    if (getMarketItemList.isLoading) {
+    if (getMarketItemList.isLoading && isFetching) {
       let arr = new Array(10).fill(undefined).map((val,idx) => idx);
       return (
         <ProductsWrapper>
