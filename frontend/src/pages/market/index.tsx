@@ -2,13 +2,13 @@ import React, {useEffect, FC} from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux'
 
-import Product from "./product";
+import Product from "component/product";
 import {IProduct} from 'types/product'
 
 import * as marketSelector from 'store/market/selectors'
 import * as marketActions from 'store/market/actions'
 
-import useInfiniteScroll from "hooks/InfinityScroll";
+import useInfiniteScroll from "hooks/InfiniteScroll";
 import usePagination from "hooks/usePagination";
 
     interface IProductsProps {

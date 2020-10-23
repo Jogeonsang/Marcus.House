@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Skeleton} from "../../skeletonEl";
+import {Skeleton} from "../skeletonEl";
 import {IProduct} from "types/product";
 
 interface IProductProps {

@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import styled from 'styled-components';
 
 import Category from "./component/category";
-import Products from "./component/products";
+import Products from "./pages/market";
 import useQuery from "./hooks/URLSearchParams/useQuery";
 
 const Store: React.FC = () => {

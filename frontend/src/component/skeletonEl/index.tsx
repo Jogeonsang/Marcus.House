@@ -7,7 +7,7 @@ interface ISkeleton{
 const SkeletonLine = styled.div<ISkeleton>`
   display: inline-block;
   height: 100%;
-  width: ${(props: any) => props.width ? props.width : '100%'};
+  width: ${(props) => props.width ? props.width : '100%'};
   min-height: 12px;
   background: ${props => css`linear-gradient(-90deg, #F0F0F0 0%, #F8F8F8 50%, #F0F0F0 100%)`};
   background-size: 400% 400%;

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, Dispatch } from 'react';
+import { useState, useEffect, Dispatch } from 'react';
+import throttle from 'lodash.throttle';
 
 const useInfiniteScroll = (callBack:() => void):[boolean, Dispatch<boolean>] => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', throttle(handleScroll, 500))
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -14,7 +15,7 @@ const useInfiniteScroll = (callBack:() => void):[boolean, Dispatch<boolean>] => 
     return callBack()
   }, [isFetching])
   const handleScroll = () => {
-    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || isFetching) return;
+    if (window.innerHeight + document.documentElement.scrollTop <= document.documentElement.offsetHeight - 300 || isFetching) return;
     setIsFetching(true);
   }
 
