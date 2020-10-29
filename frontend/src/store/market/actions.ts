@@ -1,4 +1,4 @@
-import { createAction, createAsyncAction } from 'typesafe-actions'
+import { createAsyncAction } from 'typesafe-actions'
 import {IProduct} from "types/product";
 
 interface MarketType {

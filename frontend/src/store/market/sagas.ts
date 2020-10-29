@@ -2,6 +2,7 @@ import { call, put, all, takeEvery } from 'redux-saga/effects'
 import { ActionType } from 'typesafe-actions'
 
 import * as actions from './actions'
+import * as commonAction from 'store/common/actions'
 import * as request from './requests'
 
 export function* fetchMarketItemListSaga(action: ActionType<typeof actions.fetchMarketItemListAsync.request>) {
@@ -10,6 +11,7 @@ export function* fetchMarketItemListSaga(action: ActionType<typeof actions.fetch
         yield put(actions.fetchMarketItemListAsync.success(data))
     } catch (e) {
         yield put(actions.fetchMarketItemListAsync.failure(e))
+        yield put(commonAction.setAxiosErrorHandler(e.response))
     }
 }
 

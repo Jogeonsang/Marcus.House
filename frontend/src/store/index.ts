@@ -5,17 +5,21 @@ import { connectRouter, routerMiddleware, RouterState } from 'connected-react-ro
 import browserHistory from 'lib/history'
 
 import MarketService, { MarketState } from './market/reducers'
+import CommonService, { CommonState } from './common/reducers'
+
 
 import MarketSaga from './market/sagas'
 
 export interface RootState {
     router: RouterState;
-    marketState: MarketState
+    marketState: MarketState;
+    commonState: CommonState;
 }
 
 const rootReducer = combineReducers({
     router: connectRouter(browserHistory),
-    marketState: MarketService
+    marketState: MarketService,
+    commonState: CommonService
 })
 
 const sagaMiddleware = createSagaMiddleware()
